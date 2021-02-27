@@ -11,6 +11,7 @@ request.interceptors.request.use(config => {
   if (user && user.token) {
     config.headers.Authorization = `Bearer ${user.token}`
   }
+  // 注意：这里必要返回config 配置对象  否则请求就停在这里出不去了
   return config
 }, error => {
   // 如果请求出错了（还没发出去）
