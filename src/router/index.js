@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
 
+// 路由表
 const routes = [
   {
     path: '/login',
@@ -11,11 +12,11 @@ const routes = [
   },
   {
     path: '/',
-    // name: 'layout', 因为有默认路由 这个父路由名字就没有什么意义存在
+    // name: 'layout', // 如果父路由有默认子路由，那它的 name 没有意义
     component: () => import('@/views/layout'),
     children: [
       {
-        path: '', // 空格表示默认子路由
+        path: '', // 默认子路由，只能有1个
         name: 'home',
         component: () => import('@/views/home')
       },

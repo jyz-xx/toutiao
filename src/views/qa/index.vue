@@ -5,13 +5,17 @@
 <script>
 export default {
   name: 'QaIndex',
+  components: {},
+  props: {},
   data () {
-    return {
-    }
-  }
+    return {}
+  },
+  computed: {},
+  watch: {},
+  created () {},
+  mounted () {},
+  methods: {}
 }
 </script>
 
-<style lang='less' scoped>
-
-</style>
+<style scoped lang="less"></style>
