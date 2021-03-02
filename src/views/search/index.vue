@@ -3,26 +3,49 @@
     <!-- 顶部的搜索栏 -->
   <form action="/">
     <van-search
-      v-model="value"
+      v-model="searchText"
       show-action
       placeholder="请输入搜索关键词"
       background="#3296fa"
       @search="onSearch"
       @cancel="onCancel"
+      @focus="isResultShow = false"
     />
   </form>
     <!-- /顶部的搜索栏 -->
-  </div>
+    <!-- 搜索结果 -->
+    <search-result v-if="isResultShow" />
+    <!-- 搜索结果 -->
+
+    <!-- 搜索历史记录 -->
+    <search-history v-else-if="searchText"/>
+    <!-- /搜索历史记录 -->
+
+    <!-- 搜索历史记录 -->
+    <search-suggestion
+    v-else
+    :search-text = "searchText"
+    />
+    <!-- /搜索历史记录 -->
+    </div>
 </template>
 
 <script>
+import SearchHistory from './components/search-history'
+import SearchSuggestion from './components/search-suggestion'
+import SearchResult from './components/search-result'
 export default {
   name: 'SearchIndex',
-  components: {},
+  components: {
+    SearchHistory,
+    SearchSuggestion,
+    SearchResult
+  },
   props: {},
   data () {
     return {
-      value: ''
+      searchText: '',
+      isResultShow: false
     }
   },
   computed: {},
