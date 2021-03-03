@@ -3,14 +3,16 @@
     <van-cell
     v-for="(item, index) in suggestions"
     :key="index"
-    :title="item"
-    icon="search"></van-cell>
+    icon="search"
+    @click="$emit('search', item)"
+    >
+     <span slot="title" v-html="highlight(item)"></span>
+    </van-cell>
   </div>
 </template>
 
 <script>
 import { getSearchSuggestion } from '@/api/search.js'
-
 import { debounce } from 'lodash'
 
 export default {
@@ -34,10 +36,6 @@ export default {
       handler: debounce(function (value) {
         this.loadSearchSuggestion(value)
       }, 400),
-      // handler (value) {
-      //    this.loadSearchSuggestions(value)
-      //   console.log(value)
-      // },
       // 第一次触发 handler
       immediate: true
     }
@@ -52,11 +50,20 @@ export default {
       } catch (err) {
         this.$toast('获取失败，请稍后再试')
       }
+    },
+    highlight (text) {
+      const highlightStr = `<span class="active">${this.searchText}</span>`
+      const reg = new RegExp(this.searchText, 'gi')
+      return text.replace(reg, highlightStr)
     }
   }
 }
 </script>
 
 <style lang='less' scoped>
-
+.search-suggestion {
+  /deep/ span.active {
+    color: #3294fa;
+  }
+}
 </style>
