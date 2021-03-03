@@ -11,6 +11,8 @@
 <script>
 import { getSearchSuggestion } from '@/api/search.js'
 
+import { debounce } from 'lodash'
+
 export default {
   name: 'SearchSuggestion',
   components: {},
@@ -28,9 +30,14 @@ export default {
   computed: {},
   watch: {
     searchText: {
-      handler (value) {
+      // 防抖
+      handler: debounce(function (value) {
         this.loadSearchSuggestion(value)
-      },
+      }, 400),
+      // handler (value) {
+      //    this.loadSearchSuggestions(value)
+      //   console.log(value)
+      // },
       // 第一次触发 handler
       immediate: true
     }
@@ -42,7 +49,7 @@ export default {
       try {
         const { data } = await getSearchSuggestion(q)
         this.suggestions = data.data.options
-      } catch {
+      } catch (err) {
         this.$toast('获取失败，请稍后再试')
       }
     }

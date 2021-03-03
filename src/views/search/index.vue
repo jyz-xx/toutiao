@@ -18,14 +18,14 @@
     <!-- 搜索结果 -->
 
     <!-- 搜索历史记录 -->
-    <search-history v-else-if="searchText"/>
+    <search-suggestion
+    v-else-if="searchText"
+    :search-text = "searchText"
+    />
     <!-- /搜索历史记录 -->
 
     <!-- 搜索历史记录 -->
-    <search-suggestion
-    v-else
-    :search-text = "searchText"
-    />
+    <search-history v-else/>
     <!-- /搜索历史记录 -->
     </div>
 </template>
