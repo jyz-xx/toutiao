@@ -3,33 +3,36 @@
     <!-- 顶部的搜索栏 -->
   <form  class="search-from" action="/">
     <van-search
-      v-model="searchText"
+      v-model= "searchText"
       show-action
       placeholder="请输入搜索关键词"
       background="#3296fa"
-      @search="onSearch"
-      @cancel="onCancel"
-      @focus="isResultShow = false"
+      @search= "onSearch"
+      @cancel= "onCancel"
+      @focus= "isResultShow = false"
     />
   </form>
     <!-- /顶部的搜索栏 -->
     <!-- 搜索结果 -->
     <search-result
-    v-if="isResultShow"
+    v-if= "isResultShow"
     :search-text = "searchText"
     />
     <!-- 搜索结果 -->
 
     <!-- 联想建议 -->
     <search-suggestion
-    v-else-if="searchText"
+    v-else-if= "searchText"
     :search-text = "searchText"
     @search= "onSearch"
     />
     <!-- /联想建议 -->
 
     <!-- 搜索历史记录 -->
-    <search-history v-else/>
+    <search-history
+    v-else
+    :search-histories = "searchHistories"
+    />
     <!-- /搜索历史记录 -->
     </div>
 </template>
@@ -49,7 +52,8 @@ export default {
   data () {
     return {
       searchText: '',
-      isResultShow: false
+      isResultShow: false,
+      searchHistories: []
     }
   },
   computed: {},
@@ -58,7 +62,18 @@ export default {
   mounted () {},
   methods: {
     onSearch (val) {
+      // 更新文本框内容
       this.searchText = val
+
+      // 储存搜索历史记录
+      // 要求 不要有重复的历史记录 最新的排在最前面
+      const index = this.searchHistories.indexOf(val)
+      if (index !== -1) {
+        this.searchHistories.splice(index, 1)
+      }
+      this.searchHistories.unshift(val)
+
+      // 渲染搜索结果
       this.isResultShow = true
     },
     onCancel  () {
