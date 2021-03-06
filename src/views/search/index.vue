@@ -42,6 +42,7 @@
 import SearchHistory from './components/search-history'
 import SearchSuggestion from './components/search-suggestion'
 import SearchResult from './components/search-result'
+import { setItem, getItem } from '@/utils/storage'
 export default {
   name: 'SearchIndex',
   components: {
@@ -54,11 +55,15 @@ export default {
     return {
       searchText: '',
       isResultShow: false,
-      searchHistories: []
+      searchHistories: getItem('TOUTIAO_SEARCH_HISTORIES') || []
     }
   },
   computed: {},
-  watch: {},
+  watch: {
+    searchHistories (value) {
+      setItem('TOUTIAO_SEARCH_HISTORIES', value)
+    }
+  },
   created () {},
   mounted () {},
   methods: {

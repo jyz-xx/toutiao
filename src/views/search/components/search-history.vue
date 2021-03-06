@@ -2,14 +2,14 @@
   <div class="search-history">
     <van-cell title="搜索历史">
       <div v-if= "isDeleteShow">
-        <span @click="$emit('clear-search-histories', [])">全部删除</span>
+        <span @click= "$emit('clear-search-histories', [])">全部删除</span>
         &nbsp;&nbsp;
-        <span @click="isDeleteShow = false">完成</span>
+        <span @click= "isDeleteShow = false">完成</span>
       </div>
       <van-icon
       v-else
       name= "delete"
-      @click="isDeleteShow= true"
+      @click= "isDeleteShow= true"
       />
     </van-cell>
      <van-cell
@@ -18,7 +18,7 @@
      :key= "index"
      @click= "onSearchItemClick(item, index)"
      >
-      <van-icon v-show='isDeleteShow' name="close" />
+      <van-icon v-show= 'isDeleteShow' name="close" />
     </van-cell>
   </div>
 </template>
@@ -39,7 +39,8 @@ export default {
     }
   },
   computed: {},
-  watch: {},
+  watch: {
+  },
   created () {},
   mounted () {},
   methods: {
