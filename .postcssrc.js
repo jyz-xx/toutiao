@@ -10,7 +10,7 @@ module.exports = {
     // VueCLI 内部已经配置了 autoprefixer 插件
     // 所以又配置了一次，所以产生冲突了
     // 'autoprefixer': { // autoprefixer 插件的配置
-    //   // 配置要兼容到的环境信息
+    //   配置要兼容到的环境信息
     //   browsers: ['Android >= 4.0', 'iOS >= 8']
     // },
 
@@ -38,7 +38,9 @@ module.exports = {
 
       // 配置要转换的 CSS 属性
       // * 表示所有
-      propList: ['*']
+      propList: ['*'],
+      // 配置不要转换的样式资源
+      exclude: 'github-markdown'
     }
   }
 }

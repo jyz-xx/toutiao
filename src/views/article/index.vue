@@ -10,7 +10,7 @@
 
     <div class="main-wrap">
       <!-- 加载中 -->
-      <div class="loading-wrap">
+      <div v-if= "loading" class="loading-wrap">
         <van-loading
           color="#3296fa"
           vertical
@@ -19,9 +19,9 @@
       <!-- /加载中 -->
 
       <!-- 加载完成-文章详情 -->
-      <div class="article-detail">
+      <div v-else-if= "article.title" class="article-detail">
         <!-- 文章标题 -->
-        <h1 class="article-title">这是文章标题</h1>
+        <h1 class="article-title">{{ article.title }}</h1>
         <!-- /文章标题 -->
 
         <!-- 用户信息 -->
@@ -31,10 +31,10 @@
             slot="icon"
             round
             fit="cover"
-            src="https://img.yzcdn.cn/vant/cat.jpeg"
+            :src="article.aut_photo"
           />
-          <div slot="title" class="user-name">黑马头条号</div>
-          <div slot="label" class="publish-date">14小时前</div>
+          <div slot="title" class="user-name">{{ article.aut_name }}</div>
+          <div slot="label" class="publish-date">{{ article.pubdate | relativeTime }}</div>
           <van-button
             class="follow-btn"
             type="info"
@@ -52,13 +52,16 @@
         <!-- /用户信息 -->
 
         <!-- 文章内容 -->
-        <div class="article-content">这是文章内容</div>
+        <div
+        class="article-content markdown-body"
+        v-html= "article.content"
+        ></div>
         <van-divider>正文结束</van-divider>
       </div>
       <!-- /加载完成-文章详情 -->
 
       <!-- 加载失败：404 -->
-      <div class="error-wrap">
+      <div v-else class="error-wrap">
         <van-icon name="failure" />
         <p class="text">该资源不存在或已删除！</p>
       </div>
@@ -101,27 +104,48 @@
 </template>
 
 <script>
+import { getArticleById } from '@/api/article'
+
 export default {
   name: 'ArticleIndex',
   components: {},
   props: {
     articleId: {
-      type: [Number, String],
+      type: [Number, String, Object],
       required: true
     }
   },
   data () {
-    return {}
+    return {
+      article: {}, // 文章详情
+      loading: false
+    }
   },
   computed: {},
   watch: {},
-  created () {},
+  created () {
+    this.loadArticle()
+  },
   mounted () {},
-  methods: {}
+  methods: {
+    async loadArticle () {
+      try {
+        const { data } = await getArticleById(this.articleId)
+        this.article = data.data
+
+        // 请求成功 关闭 loading
+        this.loading = false
+      } catch (err) {
+        console.log('获取数据失败', err)
+      }
+    }
+  }
 }
 </script>
 
 <style scoped lang="less">
+@import "./github-markdown.css";
+
 .article-container {
   .main-wrap {
     position: fixed;

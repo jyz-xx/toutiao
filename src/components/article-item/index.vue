@@ -3,7 +3,7 @@
   :to="`/article/${article.art_id}`"
   -->
   <van-cell
-    class="article-item"
+    class= "article-item"
     :to = "{
       // 根据路由名称进行跳转
       name: 'article',

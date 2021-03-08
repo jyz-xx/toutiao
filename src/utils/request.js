@@ -3,9 +3,20 @@
  */
 import axios from 'axios'
 import store from '@/store'
+import JSONBig from 'json-bigint'
 
 const request = axios.create({
-  // baseURL: 'http://ttapi.research.itcast.cn/' // 接口的基准路径
+  // 接口的基准路径
+  baseURL: 'http://ttapi.research.itcast.cn/',
+  // 自定义后端返回的原始数据
+  // data: 后端返回的原始数据， 说白了就是 json 格式的字符串
+  transformResponse: [function (data) {
+    try {
+      return JSONBig.parse(data)
+    } catch (err) {
+      return data
+    }
+  }]
 })
 
 // 请求拦截器
